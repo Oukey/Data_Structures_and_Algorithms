@@ -46,7 +46,7 @@ class LinkedListTest(unittest.TestCase):
         self.assertEqual(self.link_1.head.next.next.value, 56)
         self.assertIsNotNone(self.link_1.head.next.next.next)
 
-    def test_insert_node_2(self):  # тест добавления новго узла после последнего узла св. списка
+    def test_insert_node_2(self):  # тест добавления нового узла после последнего узла св. списка
         self.link_1.insert_node(-130, 3)
         self.assertEqual(self.link_1.head.next.next.next.value, -130)
         self.assertIsNotNone(self.link_1.head.next.next.next)
