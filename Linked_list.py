@@ -1,6 +1,3 @@
-import unittest
-
-
 # Связанный список.
 # Состоит из отдельных узлов (данные + связь/ссылка на следующий узел)
 
@@ -90,11 +87,11 @@ class LinkedList:  # Класс LinkedList определяет методы с�
 
     def list_len(self):  # метод определения длинны списка
         node = self.head
-        len = 0
+        ln = 0
         while node is not None:
-            len += 1
+            ln += 1
             node = node.next
-        return len
+        return ln
 
     def insert_node(self, val, num):  # метод добавление нового узла после заданного
         new_node = Node(val)  # создание узла c заданным значением (объект класса Node)
@@ -107,7 +104,8 @@ class LinkedList:  # Класс LinkedList определяет методы с�
                     node.next = new_node  # определить указатель найденного узла на новый
                 else:  # если найденный узел являестя последним в списке...
                     node.next = new_node  # определить указатель найденного узла на новый
-                    new_node.next = None  # новый узел станет завершающим в списке
+                    new_node.next = None  # указатель нового уза содержит None
+                    new_node = self.tail  # новый узел указывает на хвост
             ln += 1  # увеличить счетчик узлов
             node = node.next  # перейти к следующему узлу для новой итерации цикла
 
@@ -124,38 +122,8 @@ s_list.add_in_tail(Node(2))  # добавление в конец списка �
 s_list.add_in_tail(Node(3))  # добавление в конец списка новый узел (объект класса Node)
 s_list.add_in_tail(Node(4))  # добавление в конец списка новый узел (объект класса Node)
 
-print('Step_1. Сформированный список:')
-s_list.print_all_nodes()  # Вывод на экран всего связанного списка
-
-nf = s_list.find(11)  # создание объекта, который будет хранить результаты метода поиска класса LinkedList
-if nf is not None:  # если результаты поиска не хранят None...
-    print('Step_2. Результат поиска: ', nf.value)  # выведи данное(значение) узла
-else:
-    print('Step_2*. Результаты поиска: поиск не дал результатов.')
-
-print('Step_3. Удаление всех узлов с найденным значением:')
-s_list.del_ever_nod(1)
-s_list.print_all_nodes()
-
-print('Step_4. Удаление первого узла с найденным значением:')
-s_list.del_nod(4)
-s_list.print_all_nodes()
-
-print('Step_5. Результаты поиска всех узлов по заданному значению:', s_list.find_all(4))
-
-print('Step_6. Список состоит из {} узлов'.format(s_list.list_len()))
-
-print('Step_7. После добавления узла список имеет следующий состав:')
-s_list.insert_node(100, 3)
-s_list.print_all_nodes()
-
-print('Step_8. Результат очищения списка:')
-s_list.clear()  # удаление всех узлов списка
-s_list.print_all_nodes()
-
-print('Задание № 1.7')
 '''
-1.7. Напишите функцию, которая получает на вход два связанных списка, состоящие из целых значений, и если их длины
+Задание № 1.7. Напишите функцию, которая получает на вход два связанных списка, состоящие из целых значений, и если их длины
 равны, возвращает список, каждый элемент которого равен сумме соответствующих элементов входных списков.
 '''
 
@@ -184,154 +152,3 @@ L_1.add_in_tail(Node(5))
 L_2.add_in_tail(Node(2))
 L_2.add_in_tail(Node(4))
 L_2.add_in_tail(Node(6))
-
-print('Сформированный список №1:')
-L_1.print_all_nodes()
-print('Сформированный список №2:')
-L_2.print_all_nodes()
-
-print('Итоговый список из сумм двух списков: ')
-
-abc = comp_list(L_1, L_2)
-if abs is not None:
-    abc.print_all_nodes()
-else:
-    print('У списков №1 и №2 разная длина.')
-
-
-class LinkedListTest(unittest.TestCase):
-
-    def test_norm(self):
-        link_1 = LinkedList()  # создаем пустой св. список, объекст класса LinkedList
-        self.assertIsNone(link_1.head)  # тест на пустоту списка
-
-    def setUp(self):
-        self.link_1 = LinkedList()
-        self.link_1.add_in_tail(Node(12))
-        self.link_1.add_in_tail(Node(55))
-        self.link_1.add_in_tail(Node(128))
-
-    def tearDown(self):
-        self.link_1.clear()
-
-    def test_add_in_tail(self):
-        self.assertEqual(self.link_1.head.value, 12)
-        self.assertEqual(self.link_1.head.next.value, 55)
-        self.assertEqual(self.link_1.head.next.next.value, 128)
-        self.assertIsNone(self.link_1.head.next.next.next)
-
-    def test_del_nod_1(self):  # тест на удаление первого узла)
-        self.link_1.del_nod(12)
-        self.assertNotEqual(self.link_1.head.value, 12)
-
-    def test_del_nod_2(self):  # тест на удаление среднего узла
-        self.link_1.del_nod(55)
-        self.assertNotEqual(self.link_1.head.next.value, 55)
-
-    def test_del_nod_3(self):  # тест на удаление хвостового узла
-        self.link_1.del_nod(128)
-        self.assertIsNone(self.link_1.head.next.next)
-
-    def test_insert_node(self):
-        self.link_1.insert_node(11, 1)
-        self.assertEqual(self.link_1.head.next.value, 11)
-        self.assertIsNotNone(self.link_1.head.next.next.next)
-
-    def test_insert_node_1(self):
-        self.link_1.insert_node(56, 2)
-        self.assertEqual(self.link_1.head.next.next.value, 56)
-        self.assertIsNotNone(self.link_1.head.next.next.next)
-
-    def test_insert_node_2(self):
-        self.link_1.insert_node(-130, 3)
-        self.assertEqual(self.link_1.head.next.next.next.value, -130)
-        self.assertIsNotNone(self.link_1.head.next.next.next)
-
-
-class LinkedListTest1(unittest.TestCase):
-
-    def setUp(self):
-        self.link_1 = LinkedList()
-        self.link_1.add_in_tail(Node(12))
-        self.link_1.add_in_tail(Node(55))
-        self.link_1.add_in_tail(Node(128))
-        self.link_1.add_in_tail(Node(12))
-        self.link_1.add_in_tail(Node(55))
-        self.link_1.add_in_tail(Node(128))
-
-    def tearDown(self):
-        self.link_1.clear()
-
-    def test_ever_nod(self):
-        self.link_1.del_ever_nod(12)
-        self.assertNotEqual(self.link_1.head.value, 12)
-        self.assertNotEqual(self.link_1.head.next.next.next.value, 12)
-        self.assertIsNone(self.link_1.head.next.next.next.next)
-
-    def test_ever_nod_1(self):
-        self.link_1.del_ever_nod(55)
-        self.assertEqual(self.link_1.head.next.value, 128)
-        self.assertEqual(self.link_1.head.next.next.next.value, 128)
-        self.assertIsNone(self.link_1.head.next.next.next.next)
-
-    def test_ever_nod_2(self):
-        self.link_1.del_ever_nod(128)
-        self.assertEqual(self.link_1.head.next.next.value, 12)
-        self.assertEqual(self.link_1.head.next.next.next.value, 55)
-        self.assertIsNone(self.link_1.head.next.next.next.next)
-
-    def test_clear(self):
-        self.link_1.clear()
-        self.assertIsNone(self.link_1.head)
-
-    def test_find_all(self):
-        self.assertEqual(self.link_1.find_all(12), [12, 12])
-        self.assertEqual(self.link_1.find_all(11), [])
-
-    def test_list_len(self):
-        self.assertEqual(self.link_1.list_len(), 6)
-
-    def test_list_len_1(self):
-        self.link_1.add_in_tail(Node(250))
-        self.assertEqual(self.link_1.list_len(), 7)
-
-    def test_list_len_2(self):
-        self.link_1.clear()
-        self.assertEqual(self.link_1.list_len(), 0)
-
-
-class LinkedListTest3(unittest.TestCase):
-
-    def test_comp_list(self):
-        list_1 = LinkedList()
-        list_2 = LinkedList()
-        abc = comp_list(list_1, list_2)
-        self.assertIsNone(abc.head)
-
-    def test_comp_list_1(self):
-        list_1 = LinkedList()
-        list_1.add_in_tail(Node(3))
-        list_1.add_in_tail(Node(5))
-        list_1.add_in_tail(Node(7))
-        list_2 = LinkedList()
-        list_2.add_in_tail(Node(2))
-        list_2.add_in_tail(Node(4))
-        list_2.add_in_tail(Node(6))
-        abc = comp_list(list_1, list_2)
-        self.assertEqual(abc.head.value, (list_1.head.value + list_2.head.value))
-        self.assertEqual(abc.head.next.value, (list_1.head.next.value + list_2.head.next.value))
-        self.assertEqual(abc.head.next.next.value, (list_1.head.next.next.value + list_2.head.next.next.value))
-        self.assertIsNone(abc.head.next.next.next)
-
-    def test_comp_2(self):
-        list_1 = LinkedList()
-        list_1.add_in_tail(Node(3))
-        list_2 = LinkedList()
-        list_2.add_in_tail(Node(2))
-        list_2.add_in_tail(Node(4))
-        abc = comp_list(list_1, list_2)
-        self.assertIsNone(abc)
-
-
-if __name__ == '__main__':
-    unittest.main()
