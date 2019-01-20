@@ -52,6 +52,8 @@ class LinkedListTest(unittest.TestCase):
     def test_insert(self):  # тест метода вставки после заданного узла
         link_6 = New_LL.LinkedList()
         link_6.insert(0, 1)
+        self.assertIsNone(link_6.head)
+        link_6.insert(None, 1)
         self.assertEqual(link_6.head.value, 1)
         link_6.insert(0, 3)
         self.assertEqual(link_6.head.next.value, 3)
