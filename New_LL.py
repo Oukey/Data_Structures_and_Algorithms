@@ -39,7 +39,7 @@ class LinkedList:
             if node.value == val:
                 find_list.append(node.value)
             node = node.next
-        return find_list
+        return [find_list]
 
     def delete(self, val, all=False):  # удаления одного или всех узлов по заданному значению
         if self.head is not None:
