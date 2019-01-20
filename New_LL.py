@@ -37,9 +37,9 @@ class LinkedList:
         find_list = []
         while node is not None:
             if node.value == val:
-                find_list.append(node.value)
+                find_list.append(node)
             node = node.next
-        return [find_list]
+        return find_list
 
     def delete(self, val, all=False):  # удаления одного или всех узлов по заданному значению
         if self.head is not None:
@@ -97,11 +97,12 @@ class LinkedList:
                 ln += 1
                 node = node.next
 
+
 '''
 1.1. Добавьте в класс LinkedList метод удаления одного узла по его значению
 delete(val, all=False)
-где флажок all=False по умолчанию -- удаляем только первый нашедшийся элемент.
 
+где флажок all=False по умолчанию -- удаляем только первый нашедшийся элемент.
 1.2. Дополните этот метод удалением всех узлов по конкретному значению (флажок all=True).
 
 1.3. Добавьте в класс LinkedList метод очистки всего содержимого (создание пустого списка) -- clean()
@@ -113,5 +114,6 @@ find_all(val)
 
 1.6. Добавьте в класс LinkedList метод вставки узла newNode после заданного узла afterNode (из списка) 
 insert(afterNode, newNode)
+
 Если afterNode = None и список пустой, добавьте новый элемент первым в списке.
 '''
