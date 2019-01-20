@@ -14,9 +14,9 @@ class LinkedListTest(unittest.TestCase):
         link_2.add_in_tail(New_LL.Node(55))
         link_2.add_in_tail(New_LL.Node(128))
         link_2.add_in_tail(New_LL.Node(55))
-        self.assertEqual(link_2.find_all(12), [[12]])
-        self.assertEqual(link_2.find_all(55), [[55, 55]])
-        self.assertEqual(link_2.find_all(11), [[]])
+        self.assertEqual(link_2.find_all(12), [link_2.head])
+        self.assertEqual(link_2.find_all(55), [link_2.head.next, link_2.head.next.next.next])
+        self.assertEqual(link_2.find_all(11), [])
 
     def test_delete(self):  # тест метода удаления
         link_3 = New_LL.LinkedList()
