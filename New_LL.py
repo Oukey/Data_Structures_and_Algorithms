@@ -82,7 +82,7 @@ class LinkedList:
 
     def insert(self, afterNode, newNode):  # вставки после заданного узла (индексация узлов с 0)
         new_node = Node(newNode)
-        if self.head is None and afterNode is None::
+        if self.head is None and afterNode is None:
             self.add_in_tail(new_node)
         else:
             node = self.head
