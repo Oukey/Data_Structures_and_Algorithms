@@ -48,7 +48,19 @@ class LinkedListTest(unittest.TestCase):
         self.assertEqual(link_5.len(), 1)
         link_5.add_in_tail(New_LL.Node(24))
         self.assertEqual(link_5.len(), 2)
-
+    
+    def insert_1(self):
+        link_7 = New_LL.LinkedList()
+        node_1 = New_LL.Node(1)
+        node_2 = New_LL.Node(2)
+        node_z = None
+        link_7.insert(node_1, node_2)
+        self.assertIsNone(link_7.head)
+        link_7.insert(node_z, node_1)
+        self.assertEqual(link_7.head, node_1)
+        link_7.insert(node_1, node_2)
+        self.assertEqual(link_7.tail, node_2)
+'''
     def test_insert(self):  # тест метода вставки после заданного узла
         link_6 = New_LL.LinkedList()
         link_6.insert(0, 1)
@@ -59,3 +71,4 @@ class LinkedListTest(unittest.TestCase):
         self.assertEqual(link_6.head.next.value, 3)
         link_6.insert(0, 2)
         self.assertEqual(link_6.head.next.value, 2)
+'''
