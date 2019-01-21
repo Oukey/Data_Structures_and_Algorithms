@@ -80,22 +80,19 @@ class LinkedList:
             node = node.next
         return ln
 
-    def insert(self, afterNode, newNode):  # вставки после заданного узла (индексация узлов с 0)
-        new_node = Node(newNode)
+    def insert(self, afterNode, newNode):
+        # если список пуст и afterNode = None
         if self.head is None and afterNode is None:
-            self.add_in_tail(new_node)
-        else:
-            node = self.head
-            ln = 0
-            while node is not None:
-                if ln == afterNode:
-                    if node.next is not None:
-                        new_node.next = node.next
-                        node.next = new_node
-                    else:
-                        self.add_in_tail(new_node)
-                ln += 1
-                node = node.next
+            self.head = newNode
+            self.tail = newNode
+        elif self.head is not None:
+            # если afterNode последний элемент списка
+            if afterNode == self.tail:
+                afterNode.next = newNode
+                self.tail = newNode
+            else:
+                newNode.next = afterNode.next
+                afterNode.next = newNode
 
 
 '''
