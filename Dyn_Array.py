@@ -33,7 +33,7 @@ class DynArray:
         self.count += 1
 
     def insert(self, i, itm):  # добавляем объект itm в позицию i, начиная с 0
-        if 0 > i > self.count:  # проверка корректности указанного индекса
+        if i < 0 or i > self.count:
             raise IndexError('Index is out of bounds')
         elif self.count == i:  # без этого условия тоже работает Оо
             return self.append(itm)
@@ -54,6 +54,7 @@ class DynArray:
             for x in range(i, self.count - 1):
                 self.array[x] = self.array[x + 1]
             self.count -= 1
-            # if self.capacity > 16 and self.capacity > self.count * 1.5:
-            if 16 < self.capacity > self.count * 1.5:  # сокращение ёикости
+            if self.capacity > 16 and self.capacity > self.count * 1.5:
                 self.resize(int(0.75 * self.capacity))
+
+
