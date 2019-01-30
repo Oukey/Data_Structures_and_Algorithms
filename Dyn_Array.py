@@ -48,7 +48,9 @@ class DynArray:
             self.count += 1
 
     def delete(self, i):  # удаляем объект в позиции i
-        if self.count > 0:
+        if self.count == 0:
+            raise IndexError('Index is out of bounds')
+        else:
             if i < 0 or i > self.count:
                 raise IndexError('Index is out of bounds')
             else:
@@ -62,8 +64,7 @@ class DynArray:
                     else:
                         self.resize(16)
                         return
-                else:
-                    return
+
 
 
 
