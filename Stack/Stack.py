@@ -15,7 +15,6 @@ class Stack:
         self.stack.append(value)
 
     def peek(self):
-        # НЕ работает
         if len(self.stack) != 0:
             return self.stack[-1]
         else:
