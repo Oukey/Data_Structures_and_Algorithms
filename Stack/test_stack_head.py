@@ -35,7 +35,7 @@ class StackTest(unittest.TestCase):
         self.assertIsNone(s_4.pop())
         s_4.push(99)
         s_4.push(1)
-        self.assertEqual(s_4.pop(), 1)
+        self.assertEqual(s_4.pop(), 99)
         self.assertEqual(s_4.size(), 1)
 
     def test_peek(self):
