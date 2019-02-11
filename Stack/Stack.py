@@ -23,7 +23,7 @@ class Stack:
     def is_empty(self):  # метод проверки на пустоту
         return self.stack == []
 
-
+'''
 st = Stack()
 print(st.is_empty())
 st.push(1)
@@ -37,3 +37,4 @@ while st.size() > 0:
     st.pop()
     st.pop()
     print(st.size())
+'''
