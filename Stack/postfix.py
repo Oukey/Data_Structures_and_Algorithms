@@ -3,7 +3,7 @@ import re
 
 
 def postfix(example):
-    t_list = re.split('(1[^0-9])', example)
+    t_list = re.split('([^0-9])', example)
     stack = Stack.Stack()
     for t in t_list:
         if t == '' or t == ' ':
