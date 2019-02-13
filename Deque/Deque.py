@@ -5,10 +5,10 @@ class Deque:
 
     def addFront(self, item):
         # добавление в голову
-        # self.list.insert(0, item)
-        self.list.reverse()
-        self.addTail(item)
-        self.list.reverse()
+        self.list.insert(0, item)
+        # self.list.reverse()
+        # self.addTail(item)
+        # self.list.reverse()
 
     def addTail(self, item):
         # добавление в хвост
