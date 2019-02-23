@@ -30,30 +30,55 @@ class OrderedList:
         if self.head is None:
             self.head = new_node
             self.tail = new_node
-        # РЕЗЕРВ - сюда условие о порядке в списке!!! По умолчанию - рост значения
         else:
-            # вставка в голову
-            if self.compare(self.head.value, new_node.value) == 1 or self.compare(self.head.value,
-                                                                                  new_node.value) == 0:
-                new_node.next = self.head
-                self.head.prev = new_node
-                self.head = new_node
-            # вставка в хвост
-            elif self.compare(self.tail.value, new_node.value) == 1 or self.compare(self.tail.value,
-                                                                                    new_node.value) == 0:
-                new_node.prev = self.tail
-                self.tail.next = new_node
-                self.tail = new_node
+            if self.__ascending is True:
+                # по возрастанию
+                # вставка в голову
+                if self.compare(self.head.value, new_node.value) == 1 or self.compare(self.head.value,
+                                                                                      new_node.value) == 0:
+                    new_node.next = self.head
+                    self.head.prev = new_node
+                    self.head = new_node
+                # вставка в хвост
+                elif self.compare(self.tail.value, new_node.value) == 1 or self.compare(self.tail.value,
+                                                                                        new_node.value) == 0:
+                    new_node.prev = self.tail
+                    self.tail.next = new_node
+                    self.tail = new_node
+                # вставка в середину
+                else:
+                    while self.compare(node.value, new_node.value) == -1 or self.compare(node.value,
+                                                                                         new_node.value) == 0:
+                        if self.compare(node.next.value, new_node.value) == 1:
+                            new_node.next = node.next
+                            new_node.prev = node
+                            node.next.prev = new_node
+                            node.next = new_node
+                        node = node.next
             else:
-                while node.next is not None:
-                    if self.compare(node.value, new_node.value) == 1 and self.compare(node.next.value,
-                                                                                      new_node.value) == -1:
-                        new_node.next = node.next
-                        new_node.prev = node
-                        node.next = new_node
-                        node.next.prev = new_node
-                    node = node.next
-
+                # по убыванию
+                # вставка в голову
+                if self.compare(self.head.value, new_node.value) == -1 or self.compare(self.head.value,
+                                                                                       new_node.value) == 0:
+                    new_node.next = self.head
+                    self.head.prev = new_node
+                    self.head = new_node
+                # вставка в хвост
+                elif self.compare(self.tail.value, new_node.value) == -1 or self.compare(self.tail.value,
+                                                                                         new_node.value) == 0:
+                    new_node.prev = self.tail
+                    self.tail.next = new_node
+                    self.tail = new_node
+                # вставка в середину
+                else:
+                    while self.compare(node.value, new_node.value) == 1 or self.compare(node.value,
+                                                                                        new_node.value) == 0:
+                        if self.compare(node.next.value, new_node.value) == -1:
+                            new_node.next = node.next
+                            new_node.prev = node
+                            node.next.prev = new_node
+                            node.next = new_node
+                        node = node.next
         # автоматическая вставка value
         # в нужную позицию
 
