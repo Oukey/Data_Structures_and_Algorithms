@@ -25,12 +25,12 @@ class OrderedList:
 
     def add(self, value):
         new_node = Node(value)
-        node = self.head
         # еси список пуст
         if self.head is None:
             self.head = new_node
             self.tail = new_node
         else:
+            node = self.head
             if self.__ascending is True:
                 # по возрастанию
                 # вставка в голову
@@ -109,16 +109,19 @@ class OrderedList:
             if self.__ascending:
                 while self.compare(node.value, val) != 1:  # пока значение узла не больше заданного
                     if val == node.value:
-                        if node == self.head and self.head.next is not None:
+                        if node == self.head and self.head.next is not None:  # если найдено значение в голове
                             self.head.next.prev = None
                             self.head = self.head.next
+                        elif self.head == self.tail:
+                            self.__init__(True)
                         else:
-                            if node.next is not None:
+                            if node.next is not None:  # еси найдено значение посередине
                                 node.prev.next = node.next
                                 node.next.prev = node.prev
                             else:
-                                node.prev.next = None
+                                # если найдено значение в хвосте
                                 self.tail = node.prev
+                                node.prev.next = None
                     else:
                         node = node.next
             else:
@@ -139,7 +142,9 @@ class OrderedList:
 
     def clean(self, asc):
         # очистка списка
-        self.__init__()
+        self.head = None
+        self.tail = None
+        # self.__init__()
         self.__ascending = asc
 
     def len(self):
@@ -179,3 +184,19 @@ class OrderedStringList(OrderedList):
         # -1 если v1 < v2
         # 0 если v1 == v2
         # +1 если v1 > v2
+
+
+# логи
+
+Od = OrderedList(True)
+print(Od.len())
+Od.add(1)
+Od.add(0)
+print(Od.len())
+print(Od.head.value)
+Od.delete(1)
+Od.delete(1)
+Od.delete(1)
+# Od.add(13)
+# Od.add(1)
+print(Od.len())
