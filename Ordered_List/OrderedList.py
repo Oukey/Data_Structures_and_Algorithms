@@ -55,6 +55,7 @@ class OrderedList:
                             node.next.prev = new_node
                             node.next = new_node
                         node = node.next
+
             else:
                 # по убыванию
                 # вставка в голову
@@ -83,19 +84,74 @@ class OrderedList:
         # в нужную позицию
 
     def find(self, val):
-        return None  # здесь будет ваш код
+        if self.head is None:
+            return
+        else:
+            node = self.head
+            if self.__ascending:
+                while self.compare(node.value, val) != 1:
+                    if val == node.value:
+                        return node
+                    else:
+                        if node.next is not None:
+                            node = node.next
+            else:
+                while self.compare(node.value, val) != -1:
+                    if val == node.value:
+                        return node
+                    else:
+                        if node.next is not None:
+                            node = node.next
 
     def delete(self, val):
-        pass  # здесь будет ваш код
+        if self.head is not None:
+            node = self.head
+            if self.__ascending:
+                while self.compare(node.value, val) != 1:  # пока значение узла не больше заданного
+                    if val == node.value:
+                        if node == self.head and self.head.next is not None:
+                            self.head.next.prev = None
+                            self.head = self.head.next
+                        else:
+                            if node.next is not None:
+                                node.prev.next = node.next
+                                node.next.prev = node.prev
+                            else:
+                                node.prev.next = None
+                                self.tail = node.prev
+                    else:
+                        node = node.next
+            else:
+                while self.compare(val, node.value) != 1:
+                    if val == node.value:
+                        if node == self.head and self.head.next is not None:
+                            self.head.next.prev = None
+                            self.head = self.head.next
+                        else:
+                            if node.next is not None:
+                                node.prev.next = node.next
+                                node.next.prev = node.prev
+                            else:
+                                node.prev.next = None
+                                self.tail = node.prev
+                    else:
+                        node = node.next
 
     def clean(self, asc):
-        # {
+        # очистка списка
+        self.__init__()
         self.__ascending = asc
 
-    pass  # здесь будет ваш код
-
     def len(self):
-        return 0  # здесь будет ваш код
+        if self.head is not None:
+            ln = 0
+            node = self.head
+            while node is not None:
+                ln += 1
+                node = node.next
+            return ln
+        else:
+            return 0
 
     def get_all(self):
         r = []
@@ -113,5 +169,13 @@ class OrderedStringList(OrderedList):
         self.__ascending = asc
 
     def compare(self, v1, v2):
-        # переопределённая версия для строк
-        return 0
+        if v1.strip() == v2.strip():
+            return 0
+        elif v1.strip() > v2.strip():
+            return 1
+        else:
+            return -1
+
+        # -1 если v1 < v2
+        # 0 если v1 == v2
+        # +1 если v1 > v2
