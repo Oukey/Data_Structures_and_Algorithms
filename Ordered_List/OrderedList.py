@@ -25,63 +25,68 @@ class OrderedList:
 
     def add(self, value):
         new_node = Node(value)
-        # еси список пуст
-        if self.head is None:
+        if self.head is None:  # если список пуст
             self.head = new_node
             self.tail = new_node
-        else:
-            node = self.head
-            if self.__ascending is True:
-                # по возрастанию
-                # вставка в голову
-                if self.compare(self.head.value, new_node.value) == 1 or self.compare(self.head.value,
-                                                                                      new_node.value) == 0:
+            return
+        else:  # если в списке есть узлы
+            if self.__ascending:  # для сортировки по возрастанию
+                # если значение нового узла меньше чем значение головного
+                if self.compare(new_node.value, self.head.value) != 1:
                     new_node.next = self.head
                     self.head.prev = new_node
                     self.head = new_node
-                # вставка в хвост
-                elif self.compare(self.tail.value, new_node.value) == 1 or self.compare(self.tail.value,
-                                                                                        new_node.value) == 0:
+                # если значение нового узла больше чем значение хвостового
+                elif self.compare(new_node.value, self.tail.value) != -1:
                     new_node.prev = self.tail
                     self.tail.next = new_node
                     self.tail = new_node
-                # вставка в середину
-                else:
-                    while self.compare(node.value, new_node.value) == -1 or self.compare(node.value,
-                                                                                         new_node.value) == 0:
-                        if self.compare(node.next.value, new_node.value) == 1:
-                            new_node.next = node.next
-                            new_node.prev = node
-                            node.next.prev = new_node
-                            node.next = new_node
+                else:  # для средних узлов
+                    node = self.tail
+                    # пока значение нового узла не меньше очередного (перебор от хвоста к голове)
+                    while self.compare(new_node.value, node.value) != 1:
+                        node = node.prev
+                    new_node.prev = node
+                    new_node.next = node.next
+                    node.next.prev = new_node
+                    node.next = new_node
+                    return
+            else:  # при сортировке по убыванию
+                # если значение нового узла боьше или равно значению головного узла
+                if self.compare(new_node.value, self.head.value) != -1:
+                    new_node.next = self.head
+                    self.head.prev = new_node
+                    self.head = new_node
+                    return
+                # если значение нового узла меньше или равно значению хвостового узла
+                elif self.compare(new_node.value, self.tail.value) != 1:
+                    new_node.prev = self.tail
+                    self.tail.next = new_node
+                    self.tail = new_node
+                    return
+                else:  # для средних узлов
+                    node = self.head
+                    # пока значение нового узла не меньше очередного (перебор от головы к хвосту)
+                    while self.compare(new_node.value, node.value) != -1:
                         node = node.next
+                    new_node.prev = node
+                    new_node.next = node.next
+                    node.next.prev = new_node
+                    node.next = new_node
+                    return
 
-            else:
-                # по убыванию
-                # вставка в голову
-                if self.compare(self.head.value, new_node.value) == -1 or self.compare(self.head.value,
-                                                                                       new_node.value) == 0:
-                    new_node.next = self.head
-                    self.head.prev = new_node
-                    self.head = new_node
-                # вставка в хвост
-                elif self.compare(self.tail.value, new_node.value) == -1 or self.compare(self.tail.value,
-                                                                                         new_node.value) == 0:
-                    new_node.prev = self.tail
-                    self.tail.next = new_node
-                    self.tail = new_node
-                # вставка в середину
-                else:
-                    while self.compare(node.value, new_node.value) == 1 or self.compare(node.value,
-                                                                                        new_node.value) == 0:
-                        if self.compare(node.next.value, new_node.value) == -1:
-                            new_node.next = node.next
-                            new_node.prev = node
-                            node.next.prev = new_node
-                            node.next = new_node
-                        node = node.next
-        # автоматическая вставка value
-        # в нужную позицию
+    # def find(self, val):
+    #     if self.head is None:
+    #         return
+    #     else:
+    #         if self.__ascending:
+    #             node = self.tail
+    #             while self.compare(node.value, val) != -1:
+    #                 if val == node.value:
+    #                     return node
+    #                 else:
+    #                     if node.prev is not None:
+    #                         node = node.prev
 
     def find(self, val):
         if self.head is None:
@@ -90,55 +95,60 @@ class OrderedList:
             node = self.head
             if self.__ascending:
                 while self.compare(node.value, val) != 1:
-                    if val == node.value:
+                    if val > self.tail.value:
+                        return
+                    elif val == node.value:
                         return node
                     else:
                         if node.next is not None:
                             node = node.next
             else:
                 while self.compare(node.value, val) != -1:
-                    if val == node.value:
+                    if val < self.tail.value:
+                        return
+                    elif val == node.value:
                         return node
                     else:
                         if node.next is not None:
                             node = node.next
 
     def delete(self, val):
-        if self.head is not None:
+        if self.head is not None:  # если список не пустой
             node = self.head
-            if self.__ascending:
-                while self.compare(node.value, val) != 1:  # пока значение узла не больше заданного
-                    if val == node.value:
-                        if node == self.head and self.head.next is not None:  # если найдено значение в голове
-                            self.head.next.prev = None
-                            self.head = self.head.next
-                        elif self.head == self.tail:
-                            self.__init__(True)
-                        else:
-                            if node.next is not None:  # еси найдено значение посередине
-                                node.prev.next = node.next
-                                node.next.prev = node.prev
-                            else:
-                                # если найдено значение в хвосте
-                                self.tail = node.prev
-                                node.prev.next = None
-                    else:
-                        node = node.next
+            if node.value == val and node.next is None:  # найдено в списке из 1 элемента
+                self.head = None
+                self.tail = None
+                return
+            elif self.__ascending:  # если сортировка по возрастанию
+                while self.compare(node.value, val) != 1:  # пока значение узла не больше искомого значения
+                    if node.value == val:  # если значение найдено
+                        if node.value == self.head:  # если найдено в головном узле
+                            node.next.prev = None
+                            self.head = node.next
+                            return
+                        elif node.value == self.tail:  # если найдено в хвостовом узле
+                            node.prev.next = None
+                            self.tail = node.prev
+                            return
+                        else:  # если найдено в среднем узле
+                            node.prev.next = node.next
+                            node.next.prev = node.prev
+                            return
             else:
-                while self.compare(val, node.value) != 1:
-                    if val == node.value:
-                        if node == self.head and self.head.next is not None:
-                            self.head.next.prev = None
-                            self.head = self.head.next
-                        else:
-                            if node.next is not None:
-                                node.prev.next = node.next
-                                node.next.prev = node.prev
-                            else:
-                                node.prev.next = None
-                                self.tail = node.prev
-                    else:
-                        node = node.next
+                while self.compare(node.value, val) != -1:  # если сортировка по убыванию
+                    if node.value == val:  # если значение найдено
+                        if node.value == self.head:  # если найдено в головном узле
+                            node.next.prev = None
+                            self.head = node.next
+                            return
+                        elif node.value == self.tail:  # если найдено в хвостовом узле
+                            node.prev.next = None
+                            self.tail = node.prev
+                            return
+                        else:  # если найдено в среднем узле
+                            node.prev.next = node.next
+                            node.next.prev = node.prev
+                            return
 
     def clean(self, asc):
         # очистка списка
@@ -162,7 +172,7 @@ class OrderedList:
         r = []
         node = self.head
         while node != None:
-            r.append(node)
+            r.append(node.value)
             node = node.next
         return r
 
@@ -189,14 +199,12 @@ class OrderedStringList(OrderedList):
 # логи
 
 Od = OrderedList(True)
+Od.add(2)
+Od.add(4)
+Od.add(6)
+Od.add(8)
+
+Od.delete(4)
+
 print(Od.len())
-Od.add(1)
-Od.add(0)
-print(Od.len())
-print(Od.head.value)
-Od.delete(1)
-Od.delete(1)
-Od.delete(1)
-# Od.add(13)
-# Od.add(1)
-print(Od.len())
+print(Od.get_all())
