@@ -75,19 +75,6 @@ class OrderedList:
                     node.next = new_node
                     return
 
-    # def find(self, val):
-    #     if self.head is None:
-    #         return
-    #     else:
-    #         if self.__ascending:
-    #             node = self.tail
-    #             while self.compare(node.value, val) != -1:
-    #                 if val == node.value:
-    #                     return node
-    #                 else:
-    #                     if node.prev is not None:
-    #                         node = node.prev
-
     def find(self, val):
         if self.head is None:
             return
@@ -174,7 +161,7 @@ class OrderedList:
         r = []
         node = self.head
         while node != None:
-            r.append(node.value)
+            r.append(node)
             node = node.next
         return r
 
