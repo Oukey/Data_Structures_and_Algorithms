@@ -114,38 +114,40 @@ class OrderedList:
 
     def delete(self, val):
         if self.head is not None:  # если список не пустой
-            node = self.head
-            if node.value == val and node.next is None:  # найдено в списке из 1 элемента
-                self.head = None
-                self.tail = None
+            if val == self.head.value:  # если значение найдено в головном узле
+                if self.head.next is None:  # если список состоит из одного узла
+                    self.head = None
+                    self.tail = None
+                    return
+                else:
+                    self.head.next.prev = None  # если узел в списке не один
+                    self.head = self.head.next
+                    return
+            elif val == self.tail.value:  # если значение найдено в хвостовом узле
+                self.tail.prev.next = None
+                self.tail = self.tail.prev
                 return
-            elif self.__ascending:  # если сортировка по возрастанию
-                while self.compare(node.value, val) != 1:  # пока значение узла не больше искомого значения
-                    if node.value == val:  # если значение найдено
-                        if node.value == self.head:  # если найдено в головном узле
-                            node.next.prev = None
-                            self.head = node.next
-                            return
-                        elif node.value == self.tail:  # если найдено в хвостовом узле
-                            node.prev.next = None
-                            self.tail = node.prev
-                            return
-                        else:  # если найдено в среднем узле
+            else:
+                if self.__ascending:  # если список сортирован по возрастанию
+                    if val > self.tail.value or val < self.head.value:
+                        return
+                    node = self.tail
+                    # перебор от хвоста к голове
+                    while self.compare(val, node.value) != 1:
+                        node = node.prev
+                        if val == node.value:
                             node.prev.next = node.next
                             node.next.prev = node.prev
                             return
-            else:
-                while self.compare(node.value, val) != -1:  # если сортировка по убыванию
-                    if node.value == val:  # если значение найдено
-                        if node.value == self.head:  # если найдено в головном узле
-                            node.next.prev = None
-                            self.head = node.next
-                            return
-                        elif node.value == self.tail:  # если найдено в хвостовом узле
-                            node.prev.next = None
-                            self.tail = node.prev
-                            return
-                        else:  # если найдено в среднем узле
+
+                else:  # если список сортирован по убыванию
+                    if val < self.tail.value or val > self.head.value:
+                        return
+                    node = self.head
+                    # перебор узлов от головы до хвоста
+                    while self.compare(val, node.value) != 1:
+                        node = node.next
+                        if val == node.value:
                             node.prev.next = node.next
                             node.next.prev = node.prev
                             return
@@ -194,17 +196,3 @@ class OrderedStringList(OrderedList):
         # -1 если v1 < v2
         # 0 если v1 == v2
         # +1 если v1 > v2
-
-
-# логи
-
-Od = OrderedList(True)
-Od.add(2)
-Od.add(4)
-Od.add(6)
-Od.add(8)
-
-Od.delete(4)
-
-print(Od.len())
-print(Od.get_all())
