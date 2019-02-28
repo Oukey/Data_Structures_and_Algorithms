@@ -9,7 +9,7 @@ class OrderedList:
     def __init__(self, asc):
         self.head = None
         self.tail = None
-        self.__ascending = asc
+        self.ascending = asc
 
     def compare(self, v1, v2):
         # метод сравнения
@@ -30,7 +30,7 @@ class OrderedList:
             self.tail = new_node
             return
         else:  # если в списке есть узлы
-            if self.__ascending:  # для сортировки по возрастанию
+            if self.ascending:  # для сортировки по возрастанию
                 # если значение нового узла меньше чем значение головного
                 if self.compare(new_node.value, self.head.value) != 1:
                     new_node.next = self.head
@@ -80,7 +80,7 @@ class OrderedList:
             return
         else:
             node = self.head
-            if self.__ascending:
+            if self.ascending:
                 while self.compare(node.value, val) != 1:
                     if val > self.tail.value:
                         return
@@ -115,7 +115,7 @@ class OrderedList:
                 self.tail = self.tail.prev
                 return
             else:
-                if self.__ascending:  # если список сортирован по возрастанию
+                if self.ascending:  # если список сортирован по возрастанию
                     if val > self.tail.value or val < self.head.value:
                         return
                     node = self.tail
@@ -144,7 +144,7 @@ class OrderedList:
         self.head = None
         self.tail = None
         # self.__init__()
-        self.__ascending = asc
+        self.ascending = asc
 
     def len(self):
         if self.head is not None:
@@ -170,7 +170,7 @@ class OrderedStringList(OrderedList):
     def __init__(self, asc):
         self.head = None
         self.tail = None
-        self.__ascending = asc
+        self.ascending = asc
 
     def compare(self, v1, v2):
         if v1.strip() == v2.strip():
