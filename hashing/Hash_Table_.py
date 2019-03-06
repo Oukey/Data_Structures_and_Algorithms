@@ -14,10 +14,10 @@ class HashTable:
             return None
 
     def put(self, value):
-        i = self.seek_slot(value)
-        if i != None:
-            self.slots[i] = value
-            return i
+        index = self.seek_slot(value)
+        if index != None:
+            self.slots[index] = value
+            return index
         else:
             return None
 
