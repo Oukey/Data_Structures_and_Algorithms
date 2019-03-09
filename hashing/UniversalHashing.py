@@ -21,7 +21,7 @@ class HashTable:
             fun = self.options_str(value)
         return fun
 
-    def see_slot(self, value):
+    def seek_slot(self, value):
         pass
 
     def put(self, value):
