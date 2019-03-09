@@ -25,8 +25,16 @@ class HashTable:
         pass
 
     def put(self, value):
-        pass
+        ind = self.seek_slot(value)
+        if ind is not None:
+            self.slots[ind] = value
+            return ind
+        else:
+            return None
 
     def find(self, value):
-        pass
+        if value in self.slots:
+            return self.slots.index(value)
+        else:
+            return None
     
