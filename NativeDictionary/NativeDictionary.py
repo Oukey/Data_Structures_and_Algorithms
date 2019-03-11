@@ -1,16 +1,38 @@
+# Модель словаря
+
+
 class NativeDictionary:
     def __init__(self, sz):
         self.size = sz
-        self.slots = [None] * self.size
+        self.slots_key = [None] * self.size  # массив для ключей
+        self.slots_value = [None] * self.size  # массив для значений
 
-    def put(self, key, value):
-        # сохранение внутри класса ассоциативного массива пары ключ-значение
-        pass
+    def hash_fun(self, key):  # резерв
+        return self.slots_key.index(None)
 
-    def is_key(self, key):
-        # проверка, имеется ли в слотах такой ключ
-        pass
+    def seek_slot(self, key):  # функция определения свободного слота (попорядку)
+        if self.slots_key.count(None) != 0:
+            return self.slots_key.index(None)
+        else:
+            return None
 
-    def get(self, key):
-        # поиск и извлечение значения по ключу или отсутствие значения если ключ не найден
-        pass
+    def put(self, key, value):  # сохранение внутри класса ассоциативного массива пары ключ-значение
+        slot = self.seek_slot(key)
+        if slot is not None:
+            self.slots_key[slot] = key
+            self.slots_value[slot] = value
+            return slot
+        else:
+            return None
+
+    def is_key(self, key):  # проверка, имеется ли в слотах такой ключ
+        if key in self.slots_key:
+            return self.slots_key.index(key)
+        else:
+            return None
+
+    def get(self, key):  # поиск и извлечение значения по ключу или отсутствие значения если ключ не найден
+        if self.is_key(key) is not None:
+            return self.slots_value(self.is_key(key))
+        else:
+            return None
