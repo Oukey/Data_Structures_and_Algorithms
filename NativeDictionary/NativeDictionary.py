@@ -16,6 +16,12 @@ class NativeDictionary:
         else:
             return True
 
+    def is_key(self, key):  # проверка, имеется ли в слотах такой ключ
+        if key in self.slots_key:
+            return True
+        else:
+            return False
+
     def put(self, key, value):  # сохранение внутри класса ассоциативного массива пары ключ-значение
         slot = self.hash_fun(key)
         if slot is True:
@@ -26,12 +32,6 @@ class NativeDictionary:
             return slot
         else:
             return None
-
-    def is_key(self, key):  # проверка, имеется ли в слотах такой ключ
-        if key in self.slots_key:
-            return True
-        else:
-            return False
 
     def get(self, key):  # поиск и извлечение значения по ключу или отсутствие значения если ключ не найден
         if self.is_key(key) is True:
