@@ -7,10 +7,7 @@ class NativeDictionary:
         self.slots_key = [None] * self.size  # массив для ключей
         self.slots_value = [None] * self.size  # массив для значений
 
-    def hash_fun(self, key):  # резерв
-        return self.slots_key.index(None)
-
-    def seek_slot(self, key):  # функция определения свободного слота
+    def hash_fun(self, key):  # функция определения свободного слота
         if self.is_key(key) is False:
             if self.slots_key.count(None) != 0:
                 return self.slots_key.index(None)
@@ -20,7 +17,7 @@ class NativeDictionary:
             return True
 
     def put(self, key, value):  # сохранение внутри класса ассоциативного массива пары ключ-значение
-        slot = self.seek_slot(key)
+        slot = self.hash_fun(key)
         if slot is True:
             self.slots_value[self.slots_key.index(key)] = value
         elif slot is not None:
