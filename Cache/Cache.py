@@ -52,3 +52,27 @@ class NativeCache:
             slot = self.find(key)
             self.hits[slot] += 1
             return self.values[slot]
+
+
+'''
+# логи
+nc = NativeCache(3)
+nc.put('2', 2)
+print('find', nc.find('2'))
+print('get', nc.get('2'))
+print('slots', nc.slots)
+print('valies', nc.values)
+print('hits', nc.hits)
+print('is_key', nc.is_key('2'))
+
+
+nc.put('2', 30)
+nc.put('1', 1)
+nc.put('3', 3)
+
+nc.get('3')
+nc.put('4', 4)
+print('slots', nc.slots)
+print('valies', nc.values)
+print('hits', nc.hits)
+'''
