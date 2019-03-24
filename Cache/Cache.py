@@ -37,9 +37,11 @@ class NativeCache:
             count += 0
 
     def find(self, key):
-        for i in range(self.size):
-            if self.slots[i] == key:
-                return i
+        if self.slots[self.seek_fun(key)] == key:
+            return self.seek_fun(key)
+        #for i in range(self.size):
+            #if self.slots[i] == key:
+                #return i
 
     def is_key(self, key):
         if self.find(key) is not None:
