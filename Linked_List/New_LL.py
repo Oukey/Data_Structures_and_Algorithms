@@ -1,3 +1,5 @@
+# Связанный список
+
 class Node:
 
     def __init__(self, v):
