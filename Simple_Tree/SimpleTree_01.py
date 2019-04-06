@@ -48,12 +48,13 @@ class SimpleTree:
             # генератор
 
     def search_nodes(self, node):
-        yield node
-        for child in node.Children:
-            yield from self.search_nodes(child)
+        if self.Root is not None:
+            yield node
+            for child in node.Children:
+                yield from self.search_nodes(child)
 
-    # def __iter__(self):
-    #     return self
+    def __iter__(self):
+        return self
 
     # метод выдачи всех узлов дерева в определенном порядке
     def GetAllNodes(self):
@@ -72,7 +73,7 @@ class SimpleTree:
     # метод перемещения узла вместе с его поддеревом --
     # в качестве дочернего для узла NewParent
     def MoveNode(self, OriginalNode, NewParent):
-        if OriginalNode is not NewParent:
+        if OriginalNode is not self.Root:
             OriginalNode.Parent.Children.remove(OriginalNode)
             OriginalNode.Parent = NewParent
             NewParent.Children.append(OriginalNode)
@@ -82,6 +83,9 @@ class SimpleTree:
     # метод подсчета всех узлов в дереве
     def Count(self):
         count = 0
+        if len(self.Root.Children) == 0 and len(self.GetAllNodes()) == 1:
+            count = 1
+            return count
         for node in self.GetAllNodes():
             # if len(node.Children) >= 1:
             if node.Children:
@@ -91,8 +95,10 @@ class SimpleTree:
     # метод подсчета листьев в дереве
     def LeafCount(self):
         count_leaf = 0
+        if len(self.Root.Children) == 0 and len(self.GetAllNodes()) == 1:
+            return count_leaf
+
         for node in self.GetAllNodes():
             if len(node.Children) == 0:
                 count_leaf += 1
         return count_leaf
-    
