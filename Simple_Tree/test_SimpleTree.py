@@ -1,5 +1,5 @@
 import unittest
-import SimpleTree
+import Tree
 
 
 class SimpleTreeTest(unittest.TestCase):
@@ -10,10 +10,10 @@ class SimpleTreeTest(unittest.TestCase):
     '''
 
     def test_norm(self):
-        ch1 = SimpleTree.SimpleTreeNode(1, None)
-        ch2 = SimpleTree.SimpleTreeNode(2, None)
-        ch3 = SimpleTree.SimpleTreeNode(3, None)
-        tree = SimpleTree.SimpleTree(None)
+        ch1 = Tree.SimpleTreeNode(1, None)
+        ch2 = Tree.SimpleTreeNode(2, None)
+        ch3 = Tree.SimpleTreeNode(3, None)
+        tree = Tree.SimpleTree(None)
         self.assertIsNone(tree.Root)
         tree.AddChild(None, ch1)
         self.assertEqual(tree.Root, ch1)
@@ -33,14 +33,14 @@ class SimpleTreeTest(unittest.TestCase):
 
     @staticmethod
     def creat_tree():
-        rt = SimpleTree.SimpleTreeNode(0, None)
-        ch1 = SimpleTree.SimpleTreeNode(1, None)
-        ch2 = SimpleTree.SimpleTreeNode(2, None)
-        ch3 = SimpleTree.SimpleTreeNode(1, None)
-        ch4 = SimpleTree.SimpleTreeNode(2, None)
-        ch5 = SimpleTree.SimpleTreeNode(1, None)
-        ch6 = SimpleTree.SimpleTreeNode(4, None)
-        tree = SimpleTree.SimpleTree(rt)
+        rt = Tree.SimpleTreeNode(0, None)
+        ch1 = Tree.SimpleTreeNode(1, None)
+        ch2 = Tree.SimpleTreeNode(2, None)
+        ch3 = Tree.SimpleTreeNode(1, None)
+        ch4 = Tree.SimpleTreeNode(2, None)
+        ch5 = Tree.SimpleTreeNode(1, None)
+        ch6 = Tree.SimpleTreeNode(4, None)
+        tree = Tree.SimpleTree(rt)
         tree.AddChild(tree.Root, ch1)
         tree.AddChild(tree.Root, ch2)
         tree.AddChild(ch1, ch3)
@@ -58,20 +58,6 @@ class SimpleTreeTest(unittest.TestCase):
         self.assertEqual(len(tree.FindNodesByValue(2)), 2)
         self.assertEqual(len(tree.FindNodesByValue(3)), 0)
 
-    def test_count(self):
-        tree = self.creat_tree()
-        self.assertEqual(tree.Count(), 3)
-        self.assertEqual(tree.LeafCount(), 4)
-        ch7 = SimpleTree.SimpleTreeNode(7, None)
-        ch8 = SimpleTree.SimpleTreeNode(8, None)
-        ch6 = tree.Root.Children[1].Children[1]
-        tree.AddChild(ch6, ch7)
-        self.assertEqual(tree.Count(), 4)
-        self.assertEqual(tree.LeafCount(), 4)
-        tree.AddChild(tree.Root.Children[0], ch8)
-        self.assertEqual(tree.Count(), 4)
-        self.assertEqual(tree.LeafCount(), 5)
-
     def test_MoveNode(self):
         tree = self.creat_tree()
         self.assertEqual(len(tree.Root.Children), 2)
@@ -85,13 +71,38 @@ class SimpleTreeTest(unittest.TestCase):
 
     def test_get_level(self):
         tree = self.creat_tree()
-        ch8 = SimpleTree.SimpleTreeNode(8, None)
+        ch8 = Tree.SimpleTreeNode(8, None)
         tree.AddChild(tree.Root.Children[0].Children[0], ch8)
 
         self.assertEqual(tree.Root.get_level(), 0)
         self.assertEqual(tree.Root.Children[0].get_level(), 1)
         self.assertEqual(tree.Root.Children[0].Children[0].get_level(), 2)
         self.assertEqual(ch8.get_level(), 3)
+
+    def test_len(self):
+        tree = Tree.SimpleTree(None)
+        self.assertEqual(tree.Count(), 0)
+        self.assertEqual(tree.LeafCount(), 0)
+        self.assertEqual(len(tree.GetAllNodes()), 0)
+        ch0 = Tree.SimpleTreeNode(0, None)
+        ch1 = Tree.SimpleTreeNode(1, None)
+        ch2 = Tree.SimpleTreeNode(2, None)
+        tree.AddChild(tree.Root, ch0)
+        self.assertEqual(tree.Count(), 1)
+        self.assertEqual(tree.LeafCount(), 1)
+        self.assertEqual(len(tree.GetAllNodes()), 1)
+        tree.AddChild(tree.Root, ch1)
+        self.assertEqual(tree.Count(), 2)
+        self.assertEqual(tree.LeafCount(), 1)
+        self.assertEqual(len(tree.GetAllNodes()), 2)
+        tree.AddChild(tree.Root, ch2)
+        self.assertEqual(tree.Count(), 3)
+        self.assertEqual(tree.LeafCount(), 2)
+        self.assertEqual(len(tree.GetAllNodes()), 3)
+        tree.MoveNode(tree.Root.Children[1], ch1)
+        self.assertEqual(tree.Count(), 3)
+        self.assertEqual(tree.LeafCount(), 1)
+        self.assertEqual(len(tree.GetAllNodes()), 3)
 
 
 if __name__ == '__main__':
