@@ -10,7 +10,7 @@ class SimpleTreeNode:
         self.level = 0
 
     def get_level(self):
-        ''' медот опеределения и возврата уровня узла в дереве '''
+        ''' метод определения и возврата уровня узла в дереве '''
         if self.Parent is None:
             self.level = 0
         else:
@@ -50,7 +50,6 @@ class SimpleTree:
         метод удаления существующего узла NodeToDelete
         return True если удаление выполнено, иначе return False
         '''
-        # возможно нужно добавть проверку на принадлежность заданного узла дереву
         if self.Root != NodeToDelete and NodeToDelete.Parent is not None:
             NodeToDelete.Parent.Children.remove(NodeToDelete)
             NodeToDelete.Parent = None
@@ -75,7 +74,7 @@ class SimpleTree:
         return node_list
 
     def FindNodesByValue(self, val):
-        ''' Метод поиска узов по значению val. Возвращает список найденных узов '''
+        ''' Метод поиска узлов по значению val. Возвращает список найденных узов '''
         node_val = []
         for node in self.search_nodes(self.Root):
             if node.NodeValue == val:
@@ -101,7 +100,7 @@ class SimpleTree:
         return int(len(self.GetAllNodes()))
 
     def LeafCount(self):
-        ''' метод возвращает цеочисленное количесвто листьев в дереве '''
+        ''' метод возвращает целочисленное количество листьев в дереве '''
         count_leaf = int(0)
         for node in self.GetAllNodes():
             if len(node.Children) == 0:
