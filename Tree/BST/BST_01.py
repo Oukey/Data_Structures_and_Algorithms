@@ -10,6 +10,9 @@ class BSTNode:
         self.LeftChild = None  # левый потомок
         self.RightChild = None  # правый потомок
 
+    def __repr__(self):
+        return 'Node_{}'.format(self.NodeKey)
+
 
 class BSTFind:  # промежуточный результат поиска
 
@@ -32,7 +35,6 @@ class BST:
         return BSRFind
         '''
         # набросок!
-        key = int(key)
         result = BSTFind()
         node = self.Root
         if node is not None:
@@ -60,23 +62,8 @@ class BST:
                         result.ToLeft = True
                         break
             return result
-
-    # def compare_keys(self, key, node):
-    #     ''' Метод сравнения ключей '''
-    #     if node is not None:
-    #         if node.NodeKey == key:
-    #             return True
-    #         if node.NodeKey < key:
-    #             if node.RightChild is not None:
-    #                 return node.RightChild
-    #             else:
-    #                 return None
-    #         if node.NodeKey >= key:
-    #             if node.LeftChild is not None:
-    #                 return node.LeftChild
-    #             else:
-    #                 return None
-    #     pass
+        else:
+            return None
 
     def AddKeyValue(self, key, val):
         '''
@@ -85,23 +72,21 @@ class BST:
         val - значение
         return False если ключ уже есть, или True если добовление выполнено
         '''
-        key = int(key)
-
-        if self.Root is None:
-            self.Root.NodeKey = key
-            self.Root.NodeValue = val
+        Node = BSTNode(key, val, None)
+        if self.Root is None:  # если дерево пустое
+            self.Root = Node
             return True
-        else:
+        else:  # иначе если в дереве есть узлы...
             result = self.FindNodeByKey(key)
-            if result.NodeHasKey is True:
+            if result.NodeHasKey is True:  # если заданный узел уже есть в дереве
                 return False  # указанный узел уже есть в дереве
             else:
-                if result.ToLeft is True:
-                    result.Node.LeftChild.NodeKey = key
-                    result.Node.LeftChild.NodeValue = val
-                else:
-                    result.Node.RightChild.NodeKey = key
-                    result.Node.RightChild.NodeValue = val
+                if result.ToLeft is True:  # если заданный ключь меньше текущего
+                    result.Node.LeftChild = Node
+                    Node.Parent = result.Node.LeftChild
+                else:  # если заданный ключь больше текущего
+                    result.Node.RightChild = Node
+                    Node.Parent = result.Node.RightChild
                 return True
 
     def FinMinMax(self, FromNode, FindMax):
@@ -111,18 +96,19 @@ class BST:
         FindMax - параметр поиска (True - max, False - min)
         return узел Node
         '''
-        node = self.FromNode
+
         if self.Root is not None:
+            node = self.FindNodeByKey(FromNode.NodeKey).Node
             if FindMax is True:
                 while True:
-                    if self.Node.RightChild is not None:
+                    if node.RightChild is not None:
                         node = node.RightChild
                         continue
                     else:
                         return node
             else:
                 while True:
-                    if self.Node.LeftChild is not None:
+                    if node.LeftChild is not None:
                         node = node.LeftChild
                         continue
                     else:
@@ -144,3 +130,19 @@ class BST:
         return целочисленное количество узлов
         '''
         return 0  # количество узлов в дереве
+
+
+tree = BST(None)
+# tree.AddKeyValue(5, 50)
+# tree.AddKeyValue(3, 30)
+# tree.AddKeyValue(8, 80)
+# tree.AddKeyValue(7, 77)
+# tree.AddKeyValue(10, 101)
+# tree.AddKeyValue(4, 44)
+# tree.AddKeyValue(1, '01')
+find = tree.FindNodeByKey(8)
+print(find)
+print(find.Node)
+# print(find.NodeHasKey)
+# print(find.ToLeft)
+# print(tree.FinMinMax(tree.Root, True))
