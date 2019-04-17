@@ -110,6 +110,14 @@ class BST:
         else:
             return None
 
+    def find_receiver(self, node_del):
+        rec = node_del
+        if node_del.RightChild is not None:
+            rec = self.FinMinMax(node_del.RightChild, False)
+            if rec.RightChild is not None:
+                rec = self.find_receiver(rec.RightChild)
+        return rec
+
     def DeleteNodeByKey(self, key):
         '''
         Метод удаления узла по ключу
@@ -117,30 +125,44 @@ class BST:
         return False если ключ не найден, или True если удаление выполнено
         '''
         if self.Root and self.Root.NodeKey != key and self.FindNodeByKey(key).NodeHasKey is True:
+        # if self.Root and self.Root.NodeKey != key:
             node = self.FindNodeByKey(key).Node
-            if node.RightChild:
-                receiver = self.FinMinMax(node.RightChild, False)
-                if receiver.RightChild is None:
-                    self.change_link(node, receiver)
+            # Если нет потомков
+            if node.RightChild is None and node.LeftChild is None:
+                self.change_link(node, None)
+                node.Parent = None
+            # если есть только левый потомок
+            elif node.RightChild is None and node.LeftChild:
+                self.change_link(node, node.LeftChild)
+                node.RightChild = None
+                node.LeftChild = None
+                node.Parent = None
+            # если есть только правый потомок
+            elif node.RightChild and node.LeftChild is None:
+                self.change_link(node, node.RightChild)
+                node.RightChild = None
+                node.LeftChild = None
+                node.Parent = None
+            # если есть и правый и левый потомок
+            elif node.RightChild and node.LeftChild:
+                rec = self.find_receiver(node)
+                self.change_link(rec, None)
+                rec.Parent = None
+                rec.RightChild = None
+                rec.LeftChild = None
+                node.NodeKey = rec.NodeKey
+                node.NodeValue = rec.NodeValue
 
-                else:
-                    receiver = self.FinMinMax(receiver, True)
-                    self.change_link(node, receiver)
-                receiver.LeftChild = node.LeftChild
-                receiver.Parent.LeftChild = None
-            else:
-                receiver = node.LeftChild
-                self.change_link(node, receiver)
 
             return True
         else:
             return False
 
-    def change_link(self, node, node_child):
-        if node.Parent.LeftChild == node:
-            node.Parent.LeftChild = node_child
+    def change_link(self, node_del, node_child):
+        if node_del.Parent.LeftChild == node_del:
+            node_del.Parent.LeftChild = node_child
         else:
-            node.Parent.RightChild = node_child
+            node_del.Parent.RightChild = node_child
 
     def Count(self):
         '''
@@ -148,3 +170,54 @@ class BST:
         возвращает целочисленное количество узлов
         '''
         return len(self.GetAllNodes())
+
+
+'''логи'''
+tr = BST(None)
+tr.AddKeyValue(5, 5)  # 0
+tr.AddKeyValue(3, 3)  # 1
+tr.AddKeyValue(8, 8)  # 2 !!!
+tr.AddKeyValue(2, 2)  # 3
+tr.AddKeyValue(4, 4)  # 4
+tr.AddKeyValue(1, 1)  # 5
+tr.AddKeyValue(7, 7)  # 6
+tr.AddKeyValue(10, 10)  # 7 !!!
+tr.AddKeyValue(9, 9)  # 8
+tr.AddKeyValue(6, 6)  # 9
+tr.AddKeyValue(0, 0)  # 10
+tr.AddKeyValue(11, 0)  # 11
+tr.AddKeyValue(12, 0)  # 12
+
+print('Количество узлов:', tr.Count())
+print('Список:', tr.GetAllNodes())
+key = 1
+tr.DeleteNodeByKey(8)
+tr.DeleteNodeByKey(3)
+tr.DeleteNodeByKey(0)
+tr.DeleteNodeByKey(10)
+tr.DeleteNodeByKey(9)
+tr.DeleteNodeByKey(2)
+tr.DeleteNodeByKey(4)
+tr.DeleteNodeByKey(1)
+tr.DeleteNodeByKey(6)
+tr.DeleteNodeByKey(7)
+tr.DeleteNodeByKey(11)
+tr.DeleteNodeByKey(12)
+tr.DeleteNodeByKey(11)
+# tr.DeleteNodeByKey(key)
+# print('Удаление:', tr.DeleteNodeByKey(key))
+print('Количество узлов:', tr.Count())
+print('Список:', tr.GetAllNodes())
+
+print('_' * 40)
+key_1 = 5
+print('родитель:', tr.FindNodeByKey(key_1).Node.Parent)
+print('левый:', tr.FindNodeByKey(key_1).Node.LeftChild)
+print('правый:', tr.FindNodeByKey(key_1).Node.RightChild)
+
+# print(tr.FinMinMax(tr.FindNodeByKey(8).Node, False))
+# print('*' * 40)
+# node = tr.FindNodeByKey(10).Node
+# print(tr.find_receiver(node))
+
+print(tr.FindNodeByKey(1).NodeHasKey)
