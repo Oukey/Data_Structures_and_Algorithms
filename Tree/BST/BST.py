@@ -210,7 +210,7 @@ print('Количество узлов:', tr.Count())
 print('Список:', tr.GetAllNodes())
 
 print('_' * 40)
-key_1 = 5
+key_1 = key
 print('родитель:', tr.FindNodeByKey(key_1).Node.Parent)
 print('левый:', tr.FindNodeByKey(key_1).Node.LeftChild)
 print('правый:', tr.FindNodeByKey(key_1).Node.RightChild)
