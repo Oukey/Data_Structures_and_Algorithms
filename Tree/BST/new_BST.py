@@ -154,6 +154,7 @@ class BST:
                     node.LeftChild.Parent = node.Parent
                     node.Parent = None
                     node.LeftChild = None
+            return True
         else:
             return False
 
