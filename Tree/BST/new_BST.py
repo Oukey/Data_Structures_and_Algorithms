@@ -32,7 +32,7 @@ class BST:
 
     def FindNodeByKey(self, key):
         '''
-        Метод поиска узла в дереве и сопутсвующей информации по нему
+        Метод поиска узла в дереве и сопутствующей информации по нему
         key - ключ
         return BSRFind
         '''
@@ -63,7 +63,7 @@ class BST:
         Метод добавления ключа-значения в дерево
         key - кюч
         val - значение
-        return False если ключ уже есть, или True если добовление выполнено
+        return False если ключ уже есть, или True если добавление выполнено
         '''
         node = self.FindNodeByKey(key)
         new_node = BSTNode(key, val, None)
