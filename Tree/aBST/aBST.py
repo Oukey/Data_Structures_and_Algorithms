@@ -1,10 +1,10 @@
 # метод двоичного дерева поиска
 
+
 class aBST:
 
     def __init__(self, depth):
-        # правильно рассчитайте размер массива для дерева глубины depth:
-        tree_size = 0
+        tree_size = 2 ** (depth + 1) - 1  # рассчет количество узлов по заданной глубине
         self.Tree = [None] * tree_size  # массив ключей
 
     def FindKeyIndex(self, key):
