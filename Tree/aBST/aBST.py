@@ -13,7 +13,24 @@ class aBST:
         Параметр "key" - искомый ключ
         return - индекс с найденным ключем или None если ключ не найден
         '''
-        # ищем в массиве индекс ключа
+        if self.Tree[0] is None:
+            return 0
+        elem = 0
+        while elem < len(self.Tree):
+            # если ключ найден
+            if key == self.Tree[elem]:
+                return elem
+            # если найден свободный узел
+            elif self.Tree[elem] is None:
+                return - elem
+            # если заданный ключ меньше текущего - переход к левому потомку
+            elif key < self.Tree[elem]:
+                elem = 2 * elem + 1
+                continue
+            # если заданный ключ больше текущего - переход к правому потомку
+            elif key > self.Tree[elem]:
+                elem = 2 * elem + 2
+                continue
         return None
 
     def AddKey(self, key):
@@ -22,4 +39,9 @@ class aBST:
         Параметр "key" - заданный ключ
         return - индекс добавленного/существующего ключа или -1 если добавление не удалось
         '''
-        return -1
+        result = self.FindKeyIndex(key)
+        if result is None or result > 0:
+            return -1
+        elif result <= 0:
+            self.Tree[abs(result)] = key
+            return abs(result)
