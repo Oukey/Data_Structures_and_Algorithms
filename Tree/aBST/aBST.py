@@ -49,3 +49,11 @@ class aBST:
                 self.Tree[abs(result)] = key
             return abs(result)
 
+        
+def GenerateBBSTArray(a):
+    '''
+    Функция сортировки массаива под структуру BST
+    Параметр (a) неотсортированный массив
+    return - массив, содержащий структуру сбалансированного BST
+    '''
+    return None
