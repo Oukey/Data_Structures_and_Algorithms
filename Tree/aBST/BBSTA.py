@@ -38,3 +38,4 @@ def GenerateBBSTArray(a):
         array_BST = [None] * depth_calc(a)[1]
         binary_sort(array_BST, a, 0)
         return array_BST
+    
