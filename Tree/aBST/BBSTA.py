@@ -43,16 +43,27 @@ class BalancedBST:
             return None
 
     def CreateFromArray(self, a):
-        ''' Метод создания дерева из заданного массива a'''
+        ''' Метод создания массива дерева BSTArray из заданного массива a'''
         if type(a) == list:
             a.sort()
-            array_BST = [None] * self.depth_calc(a)[1]
-            self.binary_sort(array_BST, a, 0)
-            return array_BST
+            self.BSTArray = [None] * self.depth_calc(a)[1]
+            self.binary_sort(self.BSTArray, a, 0)
 
     def GenerateTree(self):
         '''Метод создания дерева с нуля из массива BSTArray'''
-        pass
+        self.Root = self.tree_builder(0)
+    
+        def tree_builder(self, ind, parent=None):
+        '''Метод рекурсивного построения дерева из массива с '''
+        if len(self.BSTArray) > ind:
+            node = BSTNode(self.BSTArray[ind], parent)
+            if parent is None:
+                node.Level = 1
+            else:
+                node.Level = parent.Level + 1
+            node.LeftChild = self.tree_builder(ind * 2 + 1, node)
+            node.RightChild = self.tree_builder(ind * 2 + 2, node)
+            return node
 
     def IsBalanced(self, root_node):
         '''
