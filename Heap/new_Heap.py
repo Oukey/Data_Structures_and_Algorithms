@@ -24,13 +24,26 @@ class Heap:
             return - 1
         else:
             max_elem = self.HeapArray[0]
+            self.HeapArray[0] = None
             if self.HeapArray[-1]:
-                ind = self.HeapArray[0]
+                self.HeapArray[0], self.HeapArray[-1] = self.HeapArray[-1], self.HeapArray[0]
             else:
                 ind = self.HeapArray.index(None) - 1
-                self.HeapArray[0] = None
                 self.HeapArray[0], self.HeapArray[ind] = self.HeapArray[ind], self.HeapArray[0]
-
+            # sift_down
+            ind = 0
+            while self.HeapArray[2 * ind + 2]:
+                left = 2 * ind + 1
+                right = 2 * ind + 2
+                if self.HeapArray[left] > self.HeapArray[right]:
+                    max_key = left
+                else:
+                    max_key = right
+                if self.HeapArray[ind] < self.HeapArray[max_key]:
+                    self.HeapArray[ind], self.HeapArray[max_key] = self.HeapArray[max_key], self.HeapArray[ind]
+                    ind = max_key
+                else:
+                    break
             return max_elem
 
     def Add(self, key):
