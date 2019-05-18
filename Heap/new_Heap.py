@@ -5,12 +5,15 @@ class Heap:
     def __init__(self):
         self.HeapArray = []  # хранит неотрицательные числа-ключи
 
-    def MakeHeap(self, array, depth):
+    def MakeHeap(self, array, depth=None):
         '''
         Метод создания массива кучи HeapArray из заданного массива 'a'
         Параметр 'depth' - глубина кучи
         '''
-        size = 2 ** (depth + 1) - 1
+        if depth is None:
+            size = self.Get_size_depth(array)[1]
+        else:
+            size = 2 ** (depth + 1) - 1
         self.HeapArray = [None] * size
         for key in array:
             self.Add(key)
@@ -65,27 +68,20 @@ class Heap:
                 ind = parent
 
             return True
+    
+    def Get_size_depth(self, array):  # дополнительный метод
+        '''
+        Метод расчета и возврата глубины и размера кучи по размеру массива array
+        Возвращает кортеж с параметрами: 0 - глубина кучи, 1 - размер кучи
+        '''
+        if array:
+            depth_heap = 0
+            size_heap = 0
+            while size_heap < len(array):
+                depth_heap += 1
+                size_heap = 2 ** (depth_heap + 1) - 1
+            return depth_heap, size_heap
+        else:
+            return 0, 0
 
-    # def move_up(self):  # дополнительный метод
-    #     '''Метод перемещения элемента вверх'''
-    #     pass
-    #
-    # def move_sown(self):  # дополнительный метод
-    #     '''Метод перемещения элемента вниз'''
-    #     pass
-
-
-a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-n = Heap()
-n.MakeHeap(a, 3)
-n.Add(11)
-n.Add(12)
-n.Add(13)
-n.Add(14)
-# n.Add(15)
-print(n.GetMax())
-
-print(n.HeapArray)
-
-# print(m.index(None))
+   
