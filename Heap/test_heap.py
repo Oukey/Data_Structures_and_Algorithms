@@ -1,5 +1,5 @@
 import unittest
-import new_Heap as H
+import Heap as H
 
 
 class HeapTest(unittest.TestCase):
@@ -16,7 +16,7 @@ class HeapTest(unittest.TestCase):
         a = []
         heap.MakeHeap(a)
         self.assertEqual(heap.HeapSize, 0)
-        self.assertEqual(heap.HeapArray, [None])
+        self.assertEqual(heap.HeapArray, [])
         self.assertFalse(heap.Add(0))
         self.assertEqual(heap.GetMax(), -1)
 
@@ -25,7 +25,7 @@ class HeapTest(unittest.TestCase):
         a = [0]
         heap.MakeHeap(a)
         self.assertEqual(heap.HeapSize, 3)
-        self.assertEqual(heap.HeapArray, [0, None, None])
+        self.assertEqual(heap.HeapArray, [0])
         self.assertTrue(heap.Add(0))
         self.assertEqual(heap.GetMax(), 0)
 
@@ -37,7 +37,7 @@ class HeapTest(unittest.TestCase):
         self.assertTrue(heap.Add(2))
         self.assertFalse(heap.Add(3))
         heap.GetMax()
-        # self.assertTrue(heap.Add(3))
+        self.assertTrue(heap.Add(3))
 
     def test_get_max(self):
         heap = H.Heap()
@@ -47,9 +47,9 @@ class HeapTest(unittest.TestCase):
         heap.MakeHeap(a)
         self.assertEqual(heap.HeapArray, [6, 3, 5, 0, 2, 1, 4])
         self.assertEqual(heap.HeapSize, 7)
-        # for el in range(heap.HeapSize):
-        #     sort_list.append(heap.GetMax())
-        # self.assertEqual(sort_list, sample)
+        for el in range(heap.HeapSize):
+            sort_list.append(heap.GetMax())
+        self.assertEqual(sort_list, sample)
 
 
 
@@ -57,3 +57,4 @@ class HeapTest(unittest.TestCase):
 
     if __name__ == '__main__':
         unittest.main()
+        
