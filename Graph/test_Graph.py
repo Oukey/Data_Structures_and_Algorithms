@@ -1,5 +1,5 @@
 import unittest
-import SimpleGraph_1 as G
+import SimpleGraph as G
 
 
 class GraphTest(unittest.TestCase):
