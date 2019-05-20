@@ -5,6 +5,10 @@ class Vertex:
 
     def __init__(self, val):
         self.Value = val
+        
+    def __repr__(self):
+        '''Метод упрощенного отображения объектов класса Vertex'''
+        return 'V_{}'.format(self.Value)
 
 
 class SimpleGraph:
@@ -21,7 +25,7 @@ class SimpleGraph:
         # в свободное место массива vertex
         for ind in range(self.max_vertex):
             if self.vertex[ind] is None:
-                self.vertex[ind] = value
+                self.vertex[ind] = Vertex(value)
                 break
 
         # здесь и далее, параметры v -- индекс вершины
