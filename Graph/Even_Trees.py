@@ -10,7 +10,7 @@ class SimpleTreeNode:
         self.level = 0
 
     def get_level(self):
-        ''' медот опеределения и возврата уровня узла в дереве '''
+        ''' метод определения и возврата уровня узла в дереве '''
         if self.Parent is None:
             self.level = 0
         else:
@@ -75,7 +75,7 @@ class SimpleTree:
         return node_list
 
     def FindNodesByValue(self, val):
-        ''' Метод поиска узов по значению val. Возвращает список найденных узов '''
+        ''' Метод поиска узлов по значению val. Возвращает список найденных узов '''
         node_val = []
         for node in self.search_nodes(self.Root):
             if node.NodeValue == val:
@@ -101,13 +101,35 @@ class SimpleTree:
         return int(len(self.GetAllNodes()))
 
     def LeafCount(self):
-        ''' метод возвращает цеочисленное количесвто листьев в дереве '''
+        ''' метод возвращает целочисленное количество листьев в дереве '''
         count_leaf = int(0)
         for node in self.GetAllNodes():
             if len(node.Children) == 0:
                 count_leaf += 1
         return count_leaf
 
+    def Count_node(self, node):
+        '''Метод подсчета количество узлов в поддереве с указанным корнем'''
+        result = []
+        for node in self.search_nodes(node):
+            result.append(node)
+        return len(result)
+
     def EvenTrees(self):
-        '''Метод определения максимало возможного списка разрываемых пар вершин'''
+        '''Метод определения максимально возможного списка разрываемых пар вершин'''
+        result = []
+        number_links = 0
+        changes = 1
+        # changes = 0
+        for child in self.Root.Children:
+            count = self.Count_node(child)
+            if count != 0 and count % 2 == 0 and number_links < len(self.Root.Children) - 1:
+                number_links += 1
+                result.append(self.Root)
+                result.append(child)
+            elif count % 2 == 1:
+                changes += count
+        # changes += 1
+        if len(result) > 0 and changes % 2 == 0:
+            return result
         return []
