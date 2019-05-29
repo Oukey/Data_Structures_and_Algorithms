@@ -120,7 +120,6 @@ class SimpleTree:
         result = []
         number_links = 0
         changes = 1
-        # changes = 0
         for child in self.Root.Children:
             count = self.Count_node(child)
             if count != 0 and count % 2 == 0 and number_links < len(self.Root.Children) - 1:
@@ -129,7 +128,6 @@ class SimpleTree:
                 result.append(child)
             elif count % 2 == 1:
                 changes += count
-        # changes += 1
         if len(result) > 0 and changes % 2 == 0:
             return result
         return []
