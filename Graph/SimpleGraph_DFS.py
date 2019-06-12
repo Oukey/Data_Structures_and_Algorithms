@@ -1,6 +1,28 @@
 # модель построения Графов + метод обхода в глубину
 
 
+class Stack:
+
+    def __init__(self):
+        self.stack = []
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop(0)
+        return None
+
+    def push(self, value):
+        self.stack.insert(0, value)
+
+    def peek(self):
+        if self.size() > 0:
+            return self.stack[0]
+        return None
+
+    def size(self):
+        return len(self.stack)
+
+    
 class Vertex:
 
     def __init__(self, val):
@@ -73,6 +95,16 @@ class SimpleGraph:
     def is_vertex(self, v):
         '''Метод проверки вершины в списке vertex'''
         return v <= self.max_vertex - 1 and self.vertex[v]
+    
+    def available_vertices(self, v):
+        '''
+        Метод поиска соседних вершин
+        return: список доступных вершин или False
+        '''
+        for i, val in enumerate(self.m_adjacency[v]):
+            if val == 1 and not self.vertex[i].Hit:
+                return self.vertex[i]
+        return False    
 
     def DepthFirstSearch(self, VFrom, VTo):
         '''
@@ -85,27 +117,28 @@ class SimpleGraph:
         # Проверка присутствия обоих узлов в куче:
         # if VFrom > len(self.vertex):
 
-        for vertex in self.vertex:
-            vertex.Hit = False
-
-        if VFrom > len(self.vertex) or VTo > len(self.vertex) or not self.is_vertex(VFrom) or not self.is_vertex(VTo):
-            return []
-        else:
-            result = []
-            if self.IsEdge(VFrom, VTo):
-                result = [self.vertex[VFrom], self.vertex[VTo]]
+        stack = Stack()
+        for vert in self.vertex:
+            vert.Hit = False
+        selected_vertex = self.vertex[VFrom]
+        selected_vertex.Hit = True
+        stack.push(selected_vertex)
+        while True:
+            VFrom = self.vertex.index(selected_vertex)
+            if self.m_adjacency[VFrom][VTo] == 1:
+                stack.push(self.vertex[VTo])
+                break
             else:
-                result.append(self.vertex[VFrom])
-                select_v = VFrom
-                while len(result) > 0 or self.vertex[select_v].Hit is False:
-                    for index in range(self.max_vertex):
-                        if self.m_adjacency[select_v][index] == 1 and self.vertex[index].Hit is False:
-                            self.vertex[index].Hit = True
-                            result.append(self.vertex[index])
-                            select_v = index
-                        if index == self.max_vertex - 1:
-                            result.pop()
-                            if len(result) > 0:
-                                select_v = self.vertex.index(result[-1])
-            return result
-            
+                selected_vertex = self.available_vertices(VFrom)
+            if not selected_vertex:
+                stack.pop()
+                if stack.size() == 0:
+                    return stack.stack
+                else:
+                    selected_vertex = stack.stack[0]
+                    selected_vertex.Hit = True
+            else:
+                selected_vertex.Hit = True
+                stack.push(selected_vertex)
+        return stack.stack[::-1]
+    
