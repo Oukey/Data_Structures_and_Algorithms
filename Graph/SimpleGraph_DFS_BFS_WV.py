@@ -1,4 +1,5 @@
-# модель построения Графов + метод обхода в глубину + обход вширину
+from itertools import combinations
+# модель построения Графов + метод обхода в глубину + обход вширину + уязвимые графы
 
 
 class Stack:
@@ -147,6 +148,7 @@ class SimpleGraph:
                 break
             else:
                 current = self.available_vertices(VFrom)
+                
 
             if not current:
                 stack.pop()
@@ -195,3 +197,19 @@ class SimpleGraph:
                 queue.enqueue(adjacent_vertex)
         return [i for i in self.get_path_bfs(self.vertex[VTo])][::-1]
     
+    def WeakVertices(self):
+        not_in_vertexes = []
+        for i, vertex in enumerate(self.m_adjacency):
+            adjacent_vertexes = [i for i, v in enumerate(vertex) if v == 1]
+            if len(adjacent_vertexes) < 2:
+                not_in_vertexes.append(self.vertex[i])
+                break
+            combinations_adjacent_vertexes = list(combinations(adjacent_vertexes, 2))
+            not_triangle = True
+            for v1, v2 in combinations_adjacent_vertexes:
+                if self.m_adjacency[v1][v2] == 1 and self.m_adjacency[v2][v1] == 1:
+                    not_triangle = False
+                    break
+            if not_triangle:
+                not_in_vertexes.append(self.vertex[i])
+        return not_in_vertexes   
