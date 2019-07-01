@@ -1,5 +1,5 @@
 from itertools import combinations
-# модель построения Графов + метод обхода в глубину + обход вширину + уязвимые графы
+# модель построения Графов + метод обхода в глубину + обход в ширину + уязвимые графы
 
 
 class Stack:
@@ -198,6 +198,7 @@ class SimpleGraph:
         return [i for i in self.get_path_bfs(self.vertex[VTo])][::-1]
     
     def WeakVertices(self):
+        '''Метод возврата списка узлов, не входящих ни в один треугольник в графе'''
         not_in_vertexes = []
         for i, vertex in enumerate(self.m_adjacency):
             adjacent_vertexes = [i for i, v in enumerate(vertex) if v == 1]
