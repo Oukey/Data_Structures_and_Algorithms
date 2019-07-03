@@ -24,7 +24,7 @@ class Stack:
         return self.stack == []
 
 '''
-st = Stack()
+st = 2. Stack()
 print(st.is_empty())
 st.push(1)
 st.push('2')
